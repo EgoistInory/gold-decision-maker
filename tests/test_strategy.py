@@ -35,7 +35,7 @@ class TestGoldStrategy(unittest.TestCase):
 
         # 跌幅不足
         msg = self.strategy.check_dip_buy(500)
-        self.assertNone(msg)
+        self.assertIsNone(msg)
 
     def test_get_all_decisions(self):
         # 模拟各种触发
