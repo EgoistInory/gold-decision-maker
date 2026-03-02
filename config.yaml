@@ -6,12 +6,17 @@ fixed_investment:
   enabled: true
   day_of_week: 1 # 每周一定投 (0=Mon, 6=Sun)
 
+dip_buy:
+  enabled: false
+  threshold: 0.05
+  reference_price: 1100
+
 notifiers:
   discord:
-    enabled: false
+    enabled: true
     webhook_url: ""
   feishu:
-    enabled: false
+    enabled: true
     webhook_url: ""
   telegram:
     enabled: false
@@ -24,5 +29,5 @@ notifiers:
     enabled: false
     token: "" # pushplus token
   serverchan:
-    enabled: false
+    enabled: true
     send_key: "" # Server酱 send_key

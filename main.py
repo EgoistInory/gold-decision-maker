@@ -37,8 +37,9 @@ def main():
 
     # 检查定投 (此处逻辑可根据 Action 触发频率精细化，暂全量运行)
     invest_msg = strategy.check_fixed_investment(price)
-    if invest_msg:
-        notifier.notify_all("定投决策建议", invest_msg)
+    dip_buy_msg = strategy.check_dip_buy(price)
+    if invest_msg or dip_buy_msg:
+        notifier.notify_all("定投决策建议", invest_msg + "\n" + dip_buy_msg)
 
     print("--- 任务处理完成 ---")
 
