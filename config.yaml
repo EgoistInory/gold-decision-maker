@@ -1,0 +1,19 @@
+thresholds:
+  low: 540.0 # 触发买入提醒的低价阈值 (元/克)
+  high: 580.0 # 触发卖出提醒的高价阈值 (元/克)
+
+fixed_investment:
+  enabled: true
+  day_of_week: 1 # 每周一定投 (0=Mon, 6=Sun)
+
+notifiers:
+  discord:
+    enabled: false
+    webhook_url: ""
+  feishu:
+    enabled: false
+    webhook_url: ""
+  telegram:
+    enabled: false
+    token: ""
+    chat_id: ""
