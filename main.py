@@ -1,47 +1,66 @@
 import yaml
+import logging
+import sys
 from src.fetcher import GoldFetcher
 from src.strategy import GoldStrategy
 from src.notifier import Notifier
 
+# 配置日志
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler(sys.stdout)],
+)
+logger = logging.getLogger(__name__)
+
 
 def load_config():
-    with open("config.yaml", "r", encoding="utf-8") as f:
-        return yaml.safe_load(f)
+    try:
+        with open("config.yaml", "r", encoding="utf-8") as f:
+            return yaml.safe_load(f)
+    except Exception as e:
+        logger.error(f"加载配置文件失败: {e}")
+        return {}
 
 
 def main():
-    print("--- 黄金理财决策器启动 ---")
+    logger.info("--- 黄金理财决策器启动 ---")
 
     # 1. 加载配置
     config = load_config()
+    if not config:
+        logger.error("配置为空或加载失败，请检查 config.yaml")
+        return
 
     # 2. 获取金价
     fetcher = GoldFetcher()
     data = fetcher.fetch_price()
 
     if not data:
-        print("无法获取金价数据，脚本退出。")
+        logger.error("无法获取金价数据，脚本退出。")
         return
 
     price = data["price"]
-    print(f"当前金价 ({data['name']}): {price} 元/克 (更新时间: {data['time']})")
+    logger.info(f"当前金价 ({data['name']}): {price} 元/克 (更新时间: {data['time']})")
 
     # 3. 决策逻辑
     strategy = GoldStrategy(config)
     notifier = Notifier(config)
 
-    # 检查预警
-    alerts = strategy.check_alerts(price)
+    # 获取所有决策结果
+    alerts, suggestions = strategy.get_all_decisions(price)
+
+    # 4. 发送通知
+    # 价格预警
     for alert in alerts:
         notifier.notify_all("黄金价格预警", alert)
 
-    # 检查定投 (此处逻辑可根据 Action 触发频率精细化，暂全量运行)
-    invest_msg = strategy.check_fixed_investment(price)
-    dip_buy_msg = strategy.check_dip_buy(price)
-    if invest_msg or dip_buy_msg:
-        notifier.notify_all("定投决策建议", invest_msg + "\n" + dip_buy_msg)
+    # 投资建议 (如果有多个建议，合并发送)
+    if suggestions:
+        combined_suggestion = "\n".join(suggestions)
+        notifier.notify_all("定投决策建议", combined_suggestion)
 
-    print("--- 任务处理完成 ---")
+    logger.info("--- 任务处理完成 ---")
 
 
 if __name__ == "__main__":

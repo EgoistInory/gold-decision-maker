@@ -4,7 +4,7 @@ thresholds:
 
 fixed_investment:
   enabled: true
-  day_of_week: 1 # 每周一定投 (0=Mon, 6=Sun)
+  day_of_week: [0,1,2,3,4] # 每周一定投 (0=Mon, 6=Sun)
 
 dip_buy:
   enabled: false
