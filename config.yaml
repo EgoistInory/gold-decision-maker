@@ -1,6 +1,6 @@
 thresholds:
-  low: 540.0 # 触发买入提醒的低价阈值 (元/克)
-  high: 580.0 # 触发卖出提醒的高价阈值 (元/克)
+  low: 1050.0 # 触发买入提醒的低价阈值 (元/克)
+  high: 1190.0 # 触发卖出提醒的高价阈值 (元/克)
 
 fixed_investment:
   enabled: true
@@ -17,3 +17,12 @@ notifiers:
     enabled: false
     token: ""
     chat_id: ""
+  wecom:
+    enabled: false
+    webhook_url: "" # 企业微信机器人webhook地址
+  pushplus:
+    enabled: false
+    token: "" # pushplus token
+  serverchan:
+    enabled: false
+    send_key: "" # Server酱 send_key
