@@ -1,6 +1,6 @@
 thresholds:
   low: 900.0 # 触发买入提醒的低价阈值 (元/克)
-  high: 1130.0 # 触发卖出提醒的高价阈值 (元/克)
+  high: 1100.0 # 触发卖出提醒的高价阈值 (元/克)
 
 fixed_investment:
   enabled: true
@@ -9,7 +9,7 @@ fixed_investment:
 dip_buy:
   enabled: false
   threshold: 0.05
-  reference_price: 1100
+  reference_price: 1010
 
 notifiers:
   discord:
